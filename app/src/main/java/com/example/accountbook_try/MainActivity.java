@@ -1,18 +1,25 @@
 package com.example.accountbook_try;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +64,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_chart) {
+            Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+            intent.putExtra("cost_list", (Serializable) mCostBeanList);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClick(View v) {
@@ -74,10 +99,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         @SuppressLint("WrongViewCast")
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(!costTitle.getText().toString().equals("") && !costMoney.getText().toString().equals("")){
+                            if (!costTitle.getText().toString().equals("") && !costMoney.getText().toString().equals("")) {
                                 CostBean costBean = new CostBean();
                                 costBean.setCostTitle(costTitle.getText().toString());
-                                costBean.setCostDate(costDate.getYear() + "-" + costDate.getMonth() + "-" + costDate.getDayOfMonth());
+                                costBean.setCostDate(costDate.getYear() + "-" + (costDate.getMonth() + 1) + "-" + costDate.getDayOfMonth());
                                 costBean.setCostMoney(costMoney.getText().toString());
                                 mDataHelper.insertCost(costBean);
                                 mCostBeanList.add(costBean);

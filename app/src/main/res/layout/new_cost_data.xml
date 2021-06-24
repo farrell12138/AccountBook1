@@ -24,7 +24,7 @@
         android:id="@+id/add_cost_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:datePickerMode="spinner"
+        android:layout_margin="5dp"
         android:calendarViewShown="false"
-        android:layout_margin="5dp" />
+        android:datePickerMode="spinner" />
 </LinearLayout>
